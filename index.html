@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>⚠️ WARNING WARNING ⚠️</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body {
+    font-family: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Comic Neue", cursive;
+    background: linear-gradient(45deg, #f00, #f80, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    background-size: 400% 400%;
+  }
+
+  /* ---------- the gate (browsers block sound until a click) ---------- */
+  #gate {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1.5rem; text-align: center; padding: 1rem;
+    background: repeating-linear-gradient(45deg, #ff0 0 40px, #000 40px 80px);
+  }
+  #gate button {
+    font: inherit; font-size: clamp(1.5rem, 6vw, 4rem); font-weight: bold;
+    padding: 0.5em 1em; cursor: pointer;
+    color: #0f0; background: #f0f;
+    border: 12px ridge #0ff; border-radius: 30px 4px 50px 0;
+    text-shadow: 3px 3px 0 #00f, -3px -3px 0 #f00;
+    transform: rotate(-4deg);
+  }
+
+  /* ---------- the vomit ---------- */
+  body.go { animation: bgshift 0.8s linear infinite, hue 0.6s linear infinite; }
+
+  #spin {
+    position: fixed; left: 50%; top: 50%; width: 300vmax; height: 300vmax;
+    margin: -150vmax 0 0 -150vmax;
+    background: repeating-conic-gradient(#f00 0 10deg, #ff0 10deg 20deg, #0f0 20deg 30deg,
+      #0ff 30deg 40deg, #00f 40deg 50deg, #f0f 50deg 60deg);
+    opacity: 0.55;
+  }
+  .go #spin { animation: spin 3s linear infinite; }
+
+  #checks {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%),
+      linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%);
+    background-size: 60px 60px; background-position: 0 0, 30px 30px;
+    mix-blend-mode: difference; opacity: 0.35;
+  }
+  .go #checks { animation: slide 0.5s linear infinite; }
+
+  #main {
+    position: fixed; inset: 0; z-index: 10;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 1rem; pointer-events: none;
+  }
+  #main h1 {
+    margin: 0; font-size: clamp(3rem, 14vw, 12rem); line-height: 0.9;
+    font-family: Impact, "Arial Black", sans-serif; letter-spacing: 0.05em;
+    -webkit-text-stroke: 4px #000;
+    text-shadow: 6px 6px 0 #f0f, 12px 12px 0 #0ff, 18px 18px 0 #ff0;
+  }
+  #main h2 {
+    margin: 0.4em 0 0; padding: 0.2em 0.5em;
+    font-size: clamp(1.5rem, 5.5vw, 4.5rem); line-height: 1.1;
+    border: 10px dotted #ff0; border-radius: 20px;
+    text-shadow: 3px 3px 0 #000;
+  }
+  .go #main h1 { animation: flash 0.16s steps(1) infinite, shake 0.12s linear infinite; }
+  .go #main h2 { animation: flash2 0.22s steps(1) infinite, wobble 0.5s ease-in-out infinite; }
+
+  .siren-emoji {
+    position: fixed; z-index: 20; font-size: clamp(3rem, 10vw, 8rem);
+  }
+  .go .siren-emoji { animation: spin 0.6s linear infinite; }
+  #e1 { top: 2%; left: 2%; }  #e2 { top: 2%; right: 2%; }
+  #e3 { bottom: 8%; left: 2%; } #e4 { bottom: 8%; right: 2%; }
+
+  marquee {
+    position: fixed; left: 0; right: 0; z-index: 30;
+    font-size: clamp(1rem, 3vw, 2rem); font-weight: bold;
+    padding: 0.2em 0; background: #000; color: #0f0;
+  }
+  #mq1 { top: 0; } #mq2 { bottom: 0; color: #ff0; background: #f00; }
+
+  #pops { position: fixed; inset: 0; z-index: 15; pointer-events: none; }
+  .pop {
+    position: absolute; white-space: nowrap; font-weight: bold;
+    padding: 0.1em 0.3em; border: 4px solid #000;
+    animation: popin 0.9s ease-out forwards;
+  }
+
+  #mute {
+    position: fixed; z-index: 40; bottom: 3.5rem; left: 50%; transform: translateX(-50%);
+    font: inherit; font-size: 1rem; cursor: pointer;
+    background: #ff0; color: #f0f; border: 5px outset #0f0; padding: 0.3em 0.8em;
+  }
+
+  @keyframes bgshift { to { background-position: 400% 400%; } }
+  @keyframes hue { to { filter: hue-rotate(360deg); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes slide { to { background-position: 60px 60px, 90px 90px; } }
+  @keyframes flash {
+    0%  { color: #f00; background: #ff0; }
+    25% { color: #ff0; background: #f00; }
+    50% { color: #0f0; background: #f0f; }
+    75% { color: #fff; background: #00f; }
+  }
+  @keyframes flash2 {
+    0%  { color: #0ff; background: #f00; visibility: visible; }
+    33% { color: #f0f; background: #0f0; }
+    66% { color: #ff0; background: #00f; visibility: hidden; }
+  }
+  @keyframes shake {
+    0%   { transform: translate(0, 0) rotate(0); }
+    25%  { transform: translate(-8px, 6px) rotate(-2deg); }
+    50%  { transform: translate(7px, -7px) rotate(2deg) scale(1.05); }
+    75%  { transform: translate(-6px, -4px) rotate(-1deg); }
+    100% { transform: translate(0, 0) rotate(0); }
+  }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-3deg) scale(1); }
+    50%      { transform: rotate(3deg) scale(1.08); }
+  }
+  @keyframes popin {
+    0%   { opacity: 0; scale: 0.2; }
+    20%  { opacity: 1; scale: 1.3; }
+    100% { opacity: 0; scale: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <button id="start">⚠️ CLICK TO ACKNOWLEDGE ⚠️</button>
+</div>
+
+<div id="spin"></div>
+<div id="checks"></div>
+<div id="pops"></div>
+
+<marquee id="mq1" scrollamount="25">🚨 WARNING WARNING 🚨 MUSIC LEAGUE USER HAS NOT IGNORED THIS COMMENT 🚨 WARNING WARNING 🚨 THIS IS NOT A DRILL 🚨</marquee>
+
+<div class="siren-emoji" id="e1">🚨</div>
+<div class="siren-emoji" id="e2">🚨</div>
+<div class="siren-emoji" id="e3">🚨</div>
+<div class="siren-emoji" id="e4">🚨</div>
+
+<div id="main">
+  <h1>WARNING<br>WARNING</h1>
+  <h2>Music League User has not ignored this comment.</h2>
+</div>
+
+<button id="mute" hidden>🔇 ok ok i get it</button>
+
+<marquee id="mq2" scrollamount="18" direction="right">⚠️ NOT IGNORED ⚠️ NOT IGNORED ⚠️ NOT IGNORED ⚠️ NOT IGNORED ⚠️ NOT IGNORED ⚠️</marquee>
+
+<script>
+  let ctx, master;
+
+  // Cartoon siren built from oscillators, so there's no audio file to host.
+  // Two pitch modulators take turns: a swooping wail and a "wee-woo".
+  function startSiren() {
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain();
+    master.gain.value = 0.2;
+    master.connect(ctx.destination);
+
+    const tone = ctx.createBiquadFilter();
+    tone.type = "lowpass";
+    tone.frequency.value = 3000;
+    tone.connect(master);
+
+    const osc = ctx.createOscillator();
+    osc.type = "square";
+    osc.frequency.value = 800;
+    osc.connect(tone);
+
+    const wail = ctx.createOscillator();
+    wail.frequency.value = 0.9;
+    const wailDepth = ctx.createGain();
+    wailDepth.gain.value = 350;
+    wail.connect(wailDepth).connect(osc.frequency);
+
+    // Square LFO smoothed by a lowpass gives the slidey wee-woo glide
+    const weewoo = ctx.createOscillator();
+    weewoo.type = "square";
+    weewoo.frequency.value = 1.6;
+    const glide = ctx.createBiquadFilter();
+    glide.type = "lowpass";
+    glide.frequency.value = 8;
+    const weewooDepth = ctx.createGain();
+    weewooDepth.gain.value = 0;
+    weewoo.connect(glide).connect(weewooDepth).connect(osc.frequency);
+
+    // Fast warble is what makes it sound cartoonish rather than a real siren
+    const warble = ctx.createOscillator();
+    warble.frequency.value = 14;
+    const warbleDepth = ctx.createGain();
+    warbleDepth.gain.value = 30;
+    warble.connect(warbleDepth).connect(osc.frequency);
+
+    [osc, wail, weewoo, warble].forEach(o => o.start());
+
+    let wailing = true;
+    setInterval(() => {
+      wailing = !wailing;
+      const t = ctx.currentTime;
+      wailDepth.gain.setTargetAtTime(wailing ? 350 : 0, t, 0.1);
+      weewooDepth.gain.setTargetAtTime(wailing ? 0 : 250, t, 0.1);
+    }, 4000);
+  }
+
+  const phrases = [
+    "WARNING", "WARNING WARNING", "⚠️ NOT IGNORED ⚠️", "MUSIC LEAGUE",
+    "THIS COMMENT", "🚨🚨🚨", "HAS NOT IGNORED", "!!!!!!", "WEE WOO", "🤮🌈🤮"
+  ];
+  const pops = document.getElementById("pops");
+  const rand = n => Math.floor(Math.random() * n);
+
+  function spawn() {
+    const el = document.createElement("div");
+    el.className = "pop";
+    el.textContent = phrases[rand(phrases.length)];
+    el.style.left = rand(85) + "vw";
+    el.style.top = rand(90) + "vh";
+    el.style.fontSize = (1 + Math.random() * 3.5) + "rem";
+    el.style.color = `hsl(${rand(360)}, 100%, 50%)`;
+    el.style.background = `hsl(${rand(360)}, 100%, 50%)`;
+    el.style.rotate = (rand(70) - 35) + "deg";
+    pops.appendChild(el);
+    setTimeout(() => el.remove(), 900);
+  }
+
+  function go() {
+    document.getElementById("gate").remove();
+    document.body.classList.add("go");
+    document.getElementById("mute").hidden = false;
+    startSiren();
+    setInterval(spawn, 110);
+    let flip = false;
+    setInterval(() => {
+      document.title = (flip = !flip) ? "⚠️ WARNING WARNING ⚠️" : "🚨 NOT IGNORED 🚨";
+    }, 400);
+  }
+
+  document.getElementById("start").addEventListener("click", go);
+
+  const muteBtn = document.getElementById("mute");
+  muteBtn.addEventListener("click", () => {
+    const muted = master.gain.value === 0;
+    master.gain.value = muted ? 0.2 : 0;
+    muteBtn.textContent = muted ? "🔇 ok ok i get it" : "🔊 NO I WANT MORE";
+  });
+</script>
+</body>
+</html>
